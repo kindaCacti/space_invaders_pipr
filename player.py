@@ -29,3 +29,8 @@ class PLAYER:
     @property
     def movement_speed(self):
         return self._movement_speed
+
+    def get_show_parameters(self):
+        return {"position": self.position,
+                "color": "blue",
+                "radius": 25}
