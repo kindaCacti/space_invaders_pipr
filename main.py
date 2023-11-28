@@ -16,6 +16,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+    enemies.move(dt)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
         ship.move(-ship.movement_speed * dt)
