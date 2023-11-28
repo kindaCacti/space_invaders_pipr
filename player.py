@@ -1,5 +1,6 @@
 import pygame
 from settings import SETTINGS
+from bullet import BULLET
 
 
 class PLAYER:
@@ -34,3 +35,6 @@ class PLAYER:
         return {"position": self.position,
                 "color": "blue",
                 "radius": 25}
+
+    def shoot(self):
+        return BULLET(self._x, self._y - 25, -1)
