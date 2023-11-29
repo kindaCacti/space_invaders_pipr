@@ -115,7 +115,7 @@ class ENEMY:
                 bullet_position[1] - SETTINGS.bullet_size > self._y - SETTINGS.enemy_size):
             print("almost hit")
             if (bullet_position[0] + SETTINGS.bullet_size > self._x - SETTINGS.enemies_x and
-                    bullet_position[0] - SETTINGS.bullet_size < self._x - SETTINGS.enemies_x):
+                    bullet_position[0] - SETTINGS.bullet_size < self._x + SETTINGS.enemies_x):
                 print("hit")
                 return True
         return False
