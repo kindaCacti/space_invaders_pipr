@@ -5,7 +5,7 @@ import _thread
 
 class PLAYER:
     __x = 0
-    #y coordinate is always at the bottom of the screen
+    # y coordinate is always at the bottom of the screen
 
     def getX(self):
         return self.__x
@@ -14,11 +14,13 @@ class PLAYER:
         position_change = 0
         for i in move:
             if i == 'r':
-                position_change+=1
+                position_change += 1
             elif i == 'l':
-                position_change-=1
-            if(position_change+self.__x<0): position_change+=1
-            if(position_change+self.__x>=max_x): position_change-=1
+                position_change -= 1
+            if position_change + self.__x < 0:
+                position_change += 1
+            if position_change+self.__x >= max_x:
+                position_change -= 1
         self.__x += position_change
 
 
@@ -26,11 +28,11 @@ class BOARD:
     __board = []
     __xsize = 0
     __ysize = 0
+    
     def __init__(self, xsize, ysize):
         self.__xsize = xsize
         self.__ysize = ysize
         self.clearBoard()
-    
 
     def clearBoard(self):
         self.__board.clear()

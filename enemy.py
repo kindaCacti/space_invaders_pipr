@@ -7,10 +7,10 @@ import itertools
 
 class ENEMIES:
     def _set_enemies(self, ex, ey, x_buffor, y_buffor):
-        self._mx = 10
-        self._my = 10
-        self._ex = ex
-        self._ey = ey
+        self._mx = 7
+        self._my = 7
+        self._ex = 1
+        self._ey = 1
         self._time_passed = 0
         self._time_last_shot = 0
         self._last_time = 0
@@ -78,11 +78,19 @@ class ENEMIES:
             return None
         del self._enemies[pos]
 
+    def show_enemies(self, screen):
+        for enemy in self._enemies:
+            enemy.show_enemy(screen)
+
 
 class ENEMY:
     id_obj = itertools.count()
 
     def __init__(self, x, y, msx, msy):
+        self.image = pygame.image.load("enemy.png")
+        self.image = pygame.transform.scale(self.image,
+                                            (SETTINGS.enemy_size * 2,
+                                             SETTINGS.enemy_size * 2))
         self._x = x
         self._y = y
         self._msx = msx
@@ -102,6 +110,10 @@ class ENEMY:
                 "color": "red",
                 "radius": SETTINGS.enemy_size}
 
+    def show_enemy(self, screen):
+        screen.blit(self.image, (self._x-SETTINGS.enemy_size,
+                                 self._y-SETTINGS.enemy_size))
+
     def move(self, move):
         self._x += move[0] * self._msx
         self._y += move[1] * self._msy
@@ -113,9 +125,9 @@ class ENEMY:
         # print("here")
         if (bullet_position[1] + SETTINGS.bullet_size < self._y + SETTINGS.enemy_size and
                 bullet_position[1] - SETTINGS.bullet_size > self._y - SETTINGS.enemy_size):
-            print("almost hit")
-            if (bullet_position[0] + SETTINGS.bullet_size > self._x - SETTINGS.enemies_x and
-                    bullet_position[0] - SETTINGS.bullet_size < self._x + SETTINGS.enemies_x):
+            # print("almost hit")
+            if (bullet_position[0] + SETTINGS.bullet_size > self._x - SETTINGS.enemy_size and
+                    bullet_position[0] - SETTINGS.bullet_size < self._x + SETTINGS.enemy_size):
                 print("hit")
                 return True
         return False

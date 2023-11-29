@@ -55,16 +55,21 @@ while running:
     if tmp is not None:
         bullets.append(tmp)
 
-    to_show.append(ship.get_show_parameters())
-    tmp = enemies.get_enemies_parameters()
-    for i in tmp:
-        to_show.append(i)
-    for bullet in bullets:
-        to_show.append(bullet.get_show_parameters())
+    # to_show.append(ship.get_show_parameters())
+    # tmp = enemies.get_enemies_parameters()
+    # for i in tmp:
+    #     to_show.append(i)
+    # for bullet in bullets:
+    #     to_show.append(bullet.get_show_parameters())
     # print(len(bullets))
 
-    for i in to_show:
-        pygame.draw.circle(screen, i["color"], i["position"], i["radius"])
+    # for i in to_show:
+    #     pygame.draw.circle(screen, i["color"], i["position"], i["radius"])
+
+    for bullet in bullets:
+        bullet.show_bullet(screen)
+    ship.show_ship(screen)
+    enemies.show_enemies(screen)
     to_show.clear()
     pygame.display.flip()
 

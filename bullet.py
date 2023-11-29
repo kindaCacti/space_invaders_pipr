@@ -4,6 +4,10 @@ from settings import SETTINGS
 
 class BULLET:
     def __init__(self, x, y, speed_coefficient):
+        self.image = pygame.image.load("bullet.png")
+        self.image = pygame.transform.scale(self.image,
+                                            (SETTINGS.bullet_size * 2,
+                                             SETTINGS.bullet_size * 2))
         self._x = x
         self._y = y
         self._speed = SETTINGS.bullet_speed*speed_coefficient
@@ -21,6 +25,10 @@ class BULLET:
         return {"position": self.position,
                 "color": "white",
                 "radius": SETTINGS.bullet_size}
+
+    def show_bullet(self, screen):
+        screen.blit(self.image, (self._x-SETTINGS.bullet_size,
+                                 self._y-SETTINGS.bullet_size))
 
     def move(self, tick):
         self._y += self._speed*tick
