@@ -1,78 +1,122 @@
+from enemy import Enemy
+from player import Player
+from bullet import Bullet
+from settings import Settings
+from blocker import Blocker
+from random import randint
 import pygame
-from player import PLAYER
-from enemy import ENEMIES
-from settings import SETTINGS
 
-enemies = ENEMIES(SETTINGS.enemies_x,
-                  SETTINGS.enemies_y,
-                  SETTINGS.screen_width_buffor,
-                  SETTINGS.screen_height_buffor)
+
+def show_all(screen: object, *entities: list):
+    for group in entities:
+        for entity in group:
+            entity.show(screen)
+
+def move_entities(delta_time: float, coefficient: int, entities: list):
+    for entity in entities:
+        entity.move(delta_time, coefficient)
+
+def shoot_entities(entities: list):
+    if len(entities) == 0:
+        return
+    entity = entities[randint(0,len(entities)-1)]
+    bullets.append(entity.shoot())
+
+def update_hit(bullets: list, *entities: list):
+    hit = []
+    for group in entities:
+        for entity in group:
+            for bullet in bullets:
+                if entity.is_hit(bullet):
+                    hit.append(entity)
+                    bullet.set_position([bullet.position[0], -1000])
+    return hit
+
+def remove_entities(hit, *entities):
+    removed_list = []
+    i = 0
+    for group in entities:
+        for entity in group:
+            if entity in hit:
+                if entity.next_state() is None:
+                    removed_list.append(entity)
+                continue
+            removed_list.append(entity)
+        i+=1
+    return removed_list
+
+def load_invaders():
+    invaders = []
+    for y in range(Settings.rows_of_invaders):
+        for x in range(Settings.invaders_in_row):
+            invaders.append(Enemy([10+50*x, 30+50*y]))
+    return invaders
+
 bullets = []
-pygame.init()
-screen = pygame.display.set_mode((SETTINGS.screen_width,
-                                  SETTINGS.screen_height))
+enemies = load_invaders()
+players = [Player([270, 550])]
+blockers = [Blocker([60, 470]),
+            Blocker([170, 470]),
+            Blocker([280, 470]),
+            Blocker([390, 470]),
+            Blocker([500, 470])]
+
+screen = pygame.display.set_mode((Settings.window_width,
+                                  Settings.window_height))
 clock = pygame.time.Clock()
+delta_time = 0
 running = True
-ship = PLAYER(SETTINGS.screen_width / 2, SETTINGS.screen_height-50)
-dt = 0
-to_show = []
-clicked = False
+player_shot = False
+time_running = 0
+last_shot = -1
 
 while running:
+    time_running += delta_time
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+    
     keys = pygame.key.get_pressed()
     if keys[pygame.K_a]:
-        ship.move(-ship.movement_speed * dt)
+        move_entities(delta_time, -1, players)
     if keys[pygame.K_d]:
-        ship.move(ship.movement_speed * dt)
-    if keys[pygame.K_w] and not clicked:
-        bullets.append(ship.shoot())
-        clicked = True
+        move_entities(delta_time, 1, players)
+    if keys[pygame.K_w] and not player_shot:
+        shoot_entities(players)
+        player_shot = True
     elif not keys[pygame.K_w]:
-        clicked = False
+        player_shot = False
 
-    to_delete = []
-    nb = []
+    tmp = remove_entities(update_hit(bullets, players), players)
+    players = tmp
+    tmp = remove_entities(update_hit(bullets, enemies), enemies)
+    enemies = tmp
+    tmp = remove_entities(update_hit(bullets, blockers), blockers)
+    blockers = tmp
+    new_bullets = []
     for bullet in bullets:
-        bullet.move(dt)
-        tmp2 = bullet.does_hit("player", enemies.get_enemies())
-        if tmp2 is not None:
-            if bullet.sender == -1:
-                print(tmp2)
-                to_delete.append(tmp2)
-        if bullet.within_screen():
-            nb.append(bullet)
-    bullets = list(nb)
+        if (bullet.position[1] < -100 - Settings.bullet_size or
+                bullet.position[1] > Settings.window_height + Settings.bullet_size + 100):
+            continue
+        new_bullets.append(bullet)
+    bullets = new_bullets
+    move_entities(delta_time, 1, bullets)
+    move_entities(delta_time, 1, enemies)
+    if((time_running-.5)//1 != last_shot):
+        last_shot += 1
+        shoot_entities(enemies)
     screen.fill("black")
 
-    for i in to_delete:
-        enemies.remove(i)
+    for blocker in blockers:
+        blocker.update_blocker()
+    
+    if(len(players) == 0):
+        running = False
+        continue
+    show_all(screen, bullets, enemies, players, blockers)
 
-    tmp = enemies.move(dt)
-    if tmp is not None:
-        bullets.append(tmp)
-
-    # to_show.append(ship.get_show_parameters())
-    # tmp = enemies.get_enemies_parameters()
-    # for i in tmp:
-    #     to_show.append(i)
-    # for bullet in bullets:
-    #     to_show.append(bullet.get_show_parameters())
-    # print(len(bullets))
-
-    # for i in to_show:
-    #     pygame.draw.circle(screen, i["color"], i["position"], i["radius"])
-
-    for bullet in bullets:
-        bullet.show_bullet(screen)
-    ship.show_ship(screen)
-    enemies.show_enemies(screen)
-    to_show.clear()
     pygame.display.flip()
-
-    dt = (clock.tick(SETTINGS.fps)/1000)
+    delta_time = (clock.tick(Settings.fps)/1000)
 
 pygame.quit()

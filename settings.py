@@ -1,12 +1,19 @@
-class SETTINGS:
-    player_size = 25
-    screen_width = 650
-    screen_height = 650
-    screen_width_buffor = 350
-    screen_height_buffor = 350
-    enemy_size = 15
-    bullet_speed = 400
+class Settings:
+    bullet_image = "./images/bullet.png"
     bullet_size = 5
+    bullet_speed = [0, 300]
+    window_width = 600
+    window_height = 600
+    player_size = 30
+    player_speed = [200, 0]
+    player_image = "./images/spaceship.png"
+    enemy_speed = [10, 0]
+    enemy_size = 30
+    enemy_image = "./images/enemy.png"
     fps = 60
-    enemies_x = 5
-    enemies_y = 5
+    blocker_size = 40
+    blocker_1 = "./images/blocker_full.png"
+    blocker_2 = "./images/blocker_hit_1.png"
+    blocker_3 = "./images/blocker_hit_2.png"
+    invaders_in_row = 6
+    rows_of_invaders = 5
