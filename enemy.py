@@ -9,8 +9,9 @@ class Enemy(ShootingEntity):
                  speed: list = Settings.enemy_speed,
                  size: int = Settings.enemy_size,
                  image: str = Settings.enemy_image,
-                 states: int = 1):
-        super().__init__(position, speed, size, image, bullet_speed_coefficient, states)
+                 states: int = 1,
+                 score: int = 20):
+        super().__init__(position, speed, size, image, bullet_speed_coefficient, states, score)
         self._ticks = 0
         self._done_ticks = 0
         self._speed_coeff = 1

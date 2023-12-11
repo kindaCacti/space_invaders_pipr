@@ -3,11 +3,12 @@ from bullet import Bullet
 from settings import Settings
 
 class ShootingEntity(Entity):
-    def __init__(self, position: list, speed: list, size: int, image: str, bullet_speed_coefficient: int, states: int):
+    def __init__(self, position: list, speed: list, size: int, image: str, bullet_speed_coefficient: int, states: int, score: int):
         super().__init__(position, speed, size, image)
         self._bullet_speed_coefficient = bullet_speed_coefficient
         self._state = 0
         self._states = states
+        self._score = score
     
     @property
     def bullet_speed_coefficient(self):
@@ -39,5 +40,5 @@ class ShootingEntity(Entity):
     def next_state(self):
         self._state += 1
         if self._state == self._states:
-            return -1
+            return self._score
         return None

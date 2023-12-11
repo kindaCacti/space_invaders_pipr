@@ -32,18 +32,21 @@ def update_hit(bullets: list, *entities: list):
                     bullet.set_position([bullet.position[0], -1000])
     return hit
 
-def remove_entities(hit, *entities):
+def remove_entities(hit, score, *entities):
     removed_list = []
     i = 0
     for group in entities:
         for entity in group:
             if entity in hit:
-                if entity.next_state() is None:
+                tmp = entity.next_state()
+                if tmp is None:
                     removed_list.append(entity)
+                else:
+                    score += tmp
                 continue
             removed_list.append(entity)
         i+=1
-    return removed_list
+    return removed_list, score
 
 def load_invaders():
     invaders = []
@@ -52,6 +55,8 @@ def load_invaders():
             invaders.append(Enemy([10+50*x, 30+50*y]))
     return invaders
 
+
+pygame.init()
 bullets = []
 enemies = load_invaders()
 players = [Player([270, 550])]
@@ -68,6 +73,7 @@ delta_time = 0
 running = True
 player_shot = False
 time_running = 0
+score = 0
 last_shot = -1
 
 while running:
@@ -88,11 +94,11 @@ while running:
     elif not keys[pygame.K_w]:
         player_shot = False
 
-    tmp = remove_entities(update_hit(bullets, players), players)
+    tmp, score = remove_entities(update_hit(bullets, players), score, players)
     players = tmp
-    tmp = remove_entities(update_hit(bullets, enemies), enemies)
+    tmp, score = remove_entities(update_hit(bullets, enemies), score, enemies)
     enemies = tmp
-    tmp = remove_entities(update_hit(bullets, blockers), blockers)
+    tmp, score = remove_entities(update_hit(bullets, blockers), score, blockers)
     blockers = tmp
     new_bullets = []
     for bullet in bullets:
@@ -115,6 +121,9 @@ while running:
         running = False
         continue
     show_all(screen, bullets, enemies, players, blockers)
+    font = pygame.font.Font(None, 24)
+    image = font.render("score: "+str(score), True, "white")
+    screen.blit(image, (20,20))
 
     pygame.display.flip()
     delta_time = (clock.tick(Settings.fps)/1000)
