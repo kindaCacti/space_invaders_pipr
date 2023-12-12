@@ -4,6 +4,7 @@ from bullet import Bullet
 from settings import Settings
 from blocker import Blocker
 from random import randint
+from squid import Squid
 import pygame
 
 pygame.init()
@@ -52,6 +53,9 @@ def load_invaders():
     invaders = []
     for y in range(Settings.rows_of_invaders):
         for x in range(Settings.invaders_in_row):
+            if y == 0 or y == 1:
+                invaders.append(Squid([10+50*x, 30+50*y]))
+                continue
             invaders.append(Enemy([10+50*x, 30+50*y]))
     return invaders
 

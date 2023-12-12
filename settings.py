@@ -10,6 +10,8 @@ class Settings:
     enemy_speed = [10, 0]
     enemy_size = 30
     enemy_image = "./images/enemy.png"
+    squid_image = "./images/enemy2.png"
+    squid_size = 20
     fps = 60
     blocker_size = 40
     blocker_1 = "./images/blocker_full.png"
