@@ -6,7 +6,7 @@ from blocker import Blocker
 from random import randint
 import pygame
 
-
+pygame.init()
 def show_all(screen: object, *entities: list):
     for group in entities:
         for entity in group:
@@ -55,8 +55,13 @@ def load_invaders():
             invaders.append(Enemy([10+50*x, 30+50*y]))
     return invaders
 
+def show_score(screen):
+    font = pygame.font.Font(None, 24)
+    image = font.render("score: "+str(score), True, "white")
+    screen.blit(image, (20,20))
 
-pygame.init()
+
+
 bullets = []
 enemies = load_invaders()
 players = [Player([270, 550])]
@@ -121,10 +126,7 @@ while running:
         running = False
         continue
     show_all(screen, bullets, enemies, players, blockers)
-    font = pygame.font.Font(None, 24)
-    image = font.render("score: "+str(score), True, "white")
-    screen.blit(image, (20,20))
-
+    show_score(screen)
     pygame.display.flip()
     delta_time = (clock.tick(Settings.fps)/1000)
 
