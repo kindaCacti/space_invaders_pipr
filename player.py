@@ -10,5 +10,5 @@ class Player(ShootingEntity):
                  size: int = Settings.player_size,
                  image: str = Settings.player_image,
                  states: int = 1,
-                 score: int = 1):
+                 score: int = 0):
         super().__init__(position, speed, size, image, bullet_speed_coefficient, states, score)

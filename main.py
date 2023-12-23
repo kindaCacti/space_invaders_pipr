@@ -5,6 +5,7 @@ from settings import Settings
 from blocker import Blocker
 from random import randint
 from squid import Squid
+from file_manager import FileManager
 import pygame
 
 pygame.init()
@@ -59,13 +60,22 @@ def load_invaders():
             invaders.append(Enemy([10+50*x, 30+50*y]))
     return invaders
 
-def show_score(screen):
+def show_text(screen, content, position):
     font = pygame.font.Font(None, 24)
-    image = font.render("score: "+str(score), True, "white")
-    screen.blit(image, (20,20))
+    image = font.render(content, True, "white")
+    screen.blit(image, position)
+
+def show_score(screen):
+    show_text(screen, f"score: {score}", (20,20))
+
+def show_best_score(screen):
+    show_text(screen, f"highscore: {max(best_score, score)}", (20, 40))
+    
 
 
-
+fm = FileManager("best_score.txt")
+best_score = int(fm.read_file())
+print(best_score)
 bullets = []
 enemies = load_invaders()
 players = [Player([270, 550])]
@@ -131,7 +141,10 @@ while running:
         continue
     show_all(screen, bullets, enemies, players, blockers)
     show_score(screen)
+    show_best_score(screen)
     pygame.display.flip()
     delta_time = (clock.tick(Settings.fps)/1000)
 
+if(score>best_score):
+    fm.write_to_file(str(score))
 pygame.quit()
