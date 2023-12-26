@@ -8,7 +8,11 @@ class FileManager():
         file.close()
     
     def read_file(self):
-        file = open(self._path, "r")
-        content = file.readlines()
-        file.close()
-        return content[0]
+        try:
+            file = open(self._path, "r")
+            content = file.readlines()
+            file.close()
+            return content[0]
+        except FileNotFoundError:
+            self.write_to_file("0")
+            return self.read_file()

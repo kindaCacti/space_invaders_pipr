@@ -27,13 +27,13 @@ class ShootingEntity(Entity):
                       sender = self.bullet_speed_coefficient,
                       speed = [Settings.bullet_speed[0], Settings.bullet_speed[1] * self.bullet_speed_coefficient])
     
-    def is_hit(self, bullet: object):
-        if bullet.sender == self.bullet_speed_coefficient:
+    def is_hit(self, entity: Entity):
+        if entity.sender == self.bullet_speed_coefficient:
             return False
-        if (bullet.position[0] + bullet.size >= self.position[0] and
-                bullet.position[0] <= self.position[0] + self.size and
-                bullet.position[1] + bullet.size >= self.position[1] and
-                bullet.position[1] <= self.position[1] + self.size):
+        if (entity.position[0] + entity.size >= self.position[0] and
+                entity.position[0] <= self.position[0] + self.size and
+                entity.position[1] + entity.size >= self.position[1] and
+                entity.position[1] <= self.position[1] + self.size):
             return True
         return False
     
