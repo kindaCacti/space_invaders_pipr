@@ -1,12 +1,12 @@
 class FileManager():
-    def __init__(self, path):
+    def __init__(self, path: str):
         self._path = path
-    
-    def write_to_file(self, content):
+
+    def write_to_file(self, content: str):
         file = open(self._path, "w")
         file.write(content)
         file.close()
-    
+
     def read_file(self):
         try:
             file = open(self._path, "r")

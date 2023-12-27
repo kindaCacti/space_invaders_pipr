@@ -11,4 +11,12 @@ class Player(ShootingEntity):
                  image: str = Settings.player_image,
                  states: int = 1,
                  score: int = 0):
-        super().__init__(position, speed, size, image, bullet_speed_coefficient, states, score)
+        super().__init__(position, speed, size, image,
+                         bullet_speed_coefficient, states, score)
+        self._last_shot = -1000
+
+    def player_shoot(self, time: float):
+        if time - self._last_shot < .3:
+            return None
+        self._last_shot = time
+        return self.shoot()
