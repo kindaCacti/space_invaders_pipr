@@ -13,17 +13,20 @@ fm = FileManager("best_score.txt")
 
 
 def show_all(screen: object, *entities: list):
+    # shows all given entities
     for group in entities:
         for entity in group:
             entity.show(screen)
 
 
 def move_entities(delta_time: float, coefficient: int, entities: list):
+    # moves all entities based on delta_time and coefficient
     for entity in entities:
         entity.move(delta_time, coefficient)
 
 
 def shoot_entities(entities: list, bullets: list[Bullet]):
+    # shoots a bullet by entites
     if len(entities) == 0:
         return
     entity = entities[randint(0, len(entities)-1)]
@@ -31,6 +34,7 @@ def shoot_entities(entities: list, bullets: list[Bullet]):
 
 
 def player_shoot(player: Player, time: float, bullets: list[Bullet]):
+    # shoots a bullet by a player
     tmp = player.player_shoot(time)
     if tmp is None:
         return
@@ -38,6 +42,7 @@ def player_shoot(player: Player, time: float, bullets: list[Bullet]):
 
 
 def update_hit(bullets: list, *entities: list):
+    # checks if any entity given has been hit by a bullet
     hit = []
     for group in entities:
         for entity in group:
@@ -51,6 +56,7 @@ def update_hit(bullets: list, *entities: list):
 
 
 def remove_entities(hit: list, score: int, *entities: list):
+    # removes entities set and returns new score after killing them
     removed_list = []
     i = 0
     for group in entities:
@@ -68,6 +74,7 @@ def remove_entities(hit: list, score: int, *entities: list):
 
 
 def load_invaders():
+    # loads invaders
     invaders = []
     for y in range(Settings.rows_of_invaders):
         for x in range(Settings.invaders_in_row):
@@ -80,6 +87,7 @@ def load_invaders():
 
 def show_text(screen: object, content: str, position: tuple,
               size: int = 24, color: str = "white"):
+    # shows given content on given position in given font size and font color
     font = pygame.font.Font(None, size)
     image = font.render(content, True, color)
     screen.blit(image, position)
@@ -87,15 +95,19 @@ def show_text(screen: object, content: str, position: tuple,
 
 
 def show_score(screen: object, score: int):
+    # shows score on screen
     show_text(screen, f"score: {score}", (20, 20))
 
 
 def show_best_score(screen: object, best_score: int):
+    # shows best score on screen
     show_text(screen, f"highscore: {max(best_score, score)}", (20, 40))
 
 
 def show_middle_text(screen: object, content: str, position: tuple,
                      size: int = 24, color: str = "white"):
+    # shows content on screen with given position int the
+    # middle using font of given size and color
     font = pygame.font.Font(None, size)
     image = font.render(content, True, color)
     width = image.get_width()
@@ -105,6 +117,8 @@ def show_middle_text(screen: object, content: str, position: tuple,
 
 
 def show_button(screen: object, position: tuple, content: str, size: int):
+    # shows a button on screen on the given
+    # position with given content of set size
     pygame.draw.rect(screen, "white", [position[0], position[1],
                                        size[0], size[1]])
     show_middle_text(screen, content, (position[0]+size[0]/2,
@@ -113,6 +127,7 @@ def show_button(screen: object, position: tuple, content: str, size: int):
 
 
 def is_within(point: list[int], end_points: list[int]):
+    # checks if point is within rectangle with given points
     if (point[0] > end_points[0] and
             point[0] < end_points[2] and
             point[1] > end_points[1] and
@@ -122,13 +137,15 @@ def is_within(point: list[int], end_points: list[int]):
 
 
 def check_end_condition(players: list[Player], enemies: list[Enemy]):
+    # checks if end condition is satisfied
     for enemy in enemies:
         if enemy.position[1] >= players[0].position[1]:
             return True
     return False
 
 
-def show_menu():
+def show_menu() -> int:
+    # shows menu window and returns the next position the window should go to
     screen = pygame.display.set_mode((Settings.window_width,
                                       Settings.window_height))
     running = True
@@ -155,6 +172,7 @@ def show_menu():
 
 
 def show_lose_screen(score: int):
+    # shows loosing score with given score
     screen = pygame.display.set_mode((Settings.window_width,
                                       Settings.window_height))
     running = True
@@ -182,6 +200,7 @@ def show_lose_screen(score: int):
 
 
 def show_game_window():
+    # shows game window
     best_score = int(fm.read_file())
     bullets = []
     enemies = []

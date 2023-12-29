@@ -3,26 +3,32 @@ from settings import Settings
 
 
 class Squid(ShootingEntity):
-    def __init__(self,
-                 position: list,
-                 speed: list = Settings.enemy_speed,
-                 size: int = Settings.squid_size,
-                 image: str = Settings.squid_image,
-                 bullet_speed_coefficient: int = 1,
-                 states: int = 1,
-                 score: int = 40):
-        super().__init__(position,
-                         speed,
-                         size,
-                         image,
-                         bullet_speed_coefficient,
-                         states,
-                         score)
+    """
+    Class Squid used to represent squid type of enemy.
+
+    Attributes:
+    -----------
+    ticks: float
+        number of ticks since squid spawned
+    done_ticks: int
+        number of seconds passed
+    speed_coeff: int
+        speed coefficient of squid (does it go left or right)
+
+    Methods:
+    --------
+    move(delta_time: float, speed_coefficient: int)
+        method taking care of a specific movement of a squid
+    """
+    def __init__(self, position: list):
+        super().__init__(position, Settings.enemy_speed,
+                         Settings.squid_size, Settings.squid_image, 1, 1, 40)
         self._ticks = 0
         self._done_ticks = 0
         self._speed_coeff = 1
 
-    def move(self, delta_time: float, speed_coefficient: float):
+    def move(self, delta_time: float, speed_coefficient: int):
+        # Moves an entity depending on given delta_time
         self._ticks += delta_time
         if self._ticks > 1:
             self._ticks -= 1

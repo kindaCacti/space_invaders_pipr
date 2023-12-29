@@ -1,4 +1,7 @@
 class Settings:
+    """
+    Class representing main settings of the game
+    """
     bullet_image = "./images/bullet.png"
     bullet_size = 5
     bullet_speed = [0, 300]

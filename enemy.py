@@ -3,25 +3,36 @@ from settings import Settings
 
 
 class Enemy(ShootingEntity):
-    def __init__(self,
-                 position: list,
-                 bullet_speed_coefficient: int = 1,
-                 speed: list = Settings.enemy_speed,
-                 size: int = Settings.enemy_size,
-                 image: str = Settings.enemy_image,
-                 states: int = 1,
-                 score: int = 20):
-        super().__init__(position,
-                         speed,
-                         size, image,
-                         bullet_speed_coefficient,
-                         states,
-                         score)
+    """
+    Class Enemy used to represent first type of enemy.
+
+    Attributes:
+    -----------
+    ticks: float
+        number of ticks since enemy spawned
+    done_ticks: int
+        number of seconds passed
+    speed_coeff: int
+        speed coefficient of an enemy (does it go left or right)
+
+    Methods:
+    --------
+    move(delta_time: float, speed_coefficient: int)
+        method taking care of a specific movement of an enemy
+    """
+    def __init__(self, position: list):
+        super().__init__(position, Settings.enemy_speed, Settings.enemy_size,
+                         Settings.enemy_image, 1, 1, 20)
         self._ticks = 0
         self._done_ticks = 0
         self._speed_coeff = 1
 
+    def set_ticks(self, ticks):
+        # sets ticks to offset movement
+        self._ticks = ticks
+
     def move(self, delta_time: float, speed_coefficient: float):
+        # moves enemy based on delt_time
         self._ticks += delta_time
         if self._ticks > 1:
             self._ticks -= 1

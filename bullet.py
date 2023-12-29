@@ -3,13 +3,19 @@ from settings import Settings
 
 
 class Bullet(Entity):
-    def __init__(self,
-                 position: list,
-                 sender: int,
-                 speed: list = Settings.bullet_speed,
-                 size: int = Settings.bullet_size,
-                 image: int = Settings.bullet_image):
-        super().__init__(position, speed, size, image)
+    """
+    Class Bullet used to represent bullets.
+
+    Attributes:
+    -----------
+    position: list
+        list representing x and y position of a bullet
+    sender: int
+        integer representing who sent the bullet
+    """
+    def __init__(self, position: list, sender: int):
+        super().__init__(position, Settings.bullet_speed,
+                         Settings.bullet_size, Settings.bullet_image)
         self._sender = sender
 
     @property
