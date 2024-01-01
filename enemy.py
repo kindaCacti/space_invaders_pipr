@@ -20,9 +20,9 @@ class Enemy(ShootingEntity):
     move(delta_time: float, speed_coefficient: int)
         method taking care of a specific movement of an enemy
     """
-    def __init__(self, position: list):
+    def __init__(self, position: list, score: int, image: str):
         super().__init__(position, Settings.enemy_speed, Settings.enemy_size,
-                         Settings.enemy_image, 1, 1, 20)
+                         image, 1, 1, score)
         self._ticks = 0
         self._done_ticks = 0
         self._speed_coeff = 1

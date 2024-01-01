@@ -10,3 +10,5 @@ Classes:
   - Player
   - FileManager
   - Settings
+
+Class Entity

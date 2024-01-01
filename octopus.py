@@ -2,7 +2,7 @@ from enemy import Enemy
 from settings import Settings
 
 
-class Squid(Enemy):
+class Octopus(Enemy):
     """
     Class Squid used to represent squid type of enemy.
 
@@ -16,4 +16,4 @@ class Squid(Enemy):
         speed coefficient of squid (does it go left or right)
     """
     def __init__(self, position: list):
-        super().__init__(position, 40, Settings.squid_image)
+        super().__init__(position, 20, Settings.enemy_image)

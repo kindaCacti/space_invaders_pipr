@@ -1,4 +1,5 @@
 from enemy import Enemy
+from octopus import Octopus
 from player import Player
 from bullet import Bullet
 from settings import Settings
@@ -81,7 +82,7 @@ def load_invaders():
             if y == 0 or y == 1:
                 invaders.append(Squid([10+50*x, 30+50*y]))
                 continue
-            invaders.append(Enemy([10+50*x, 30+50*y]))
+            invaders.append(Octopus([10+50*x, 30+50*y]))
     return invaders
 
 
@@ -276,7 +277,6 @@ def show_game_window():
 
         if len(players) == 0:
             running = False
-            print("hi")
             return score
         show_all(screen, bullets, enemies, players, blockers)
         show_score(screen, score)

@@ -48,10 +48,8 @@ class ShootingEntity(Entity):
         if self.bullet_speed_coefficient == 1:
             y_position += 2 * dist + self.size
         return Bullet([self.position[0] + self.size / 2, y_position],
-                      sender=self.bullet_speed_coefficient,
-                      speed=[Settings.bullet_speed[0],
-                             Settings.bullet_speed[1] *
-                             self.bullet_speed_coefficient])
+                      self.bullet_speed_coefficient,
+                      self.bullet_speed_coefficient)
 
     def is_hit(self, entity: Entity) -> [bool, bool]:
         # Returns if an entity was shot and if should its state change
