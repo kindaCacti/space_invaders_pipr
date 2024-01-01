@@ -14,9 +14,9 @@ class Bullet(Entity):
         integer representing who sent the bullet
     """
 
-    def __init__(self, position: list, sender: int, speed_coefficient: int):
+    def __init__(self, position: list, sender: int, speed_coeff: int):
         super().__init__(position,
-                         self.set_actual_speed(Settings.bullet_speed, speed_coefficient),
+                         self.set_speed(Settings.bullet_speed, speed_coeff),
                          Settings.bullet_size, Settings.bullet_image)
         self._sender = sender
 
@@ -24,5 +24,5 @@ class Bullet(Entity):
     def sender(self):
         return self._sender
 
-    def set_actual_speed(self, speed: list, speed_coefficient: int):
+    def new_speed(self, speed: list, speed_coefficient: int):
         return [speed[0], speed[1] * speed_coefficient]
