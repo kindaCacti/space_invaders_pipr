@@ -16,7 +16,7 @@ class Bullet(Entity):
 
     def __init__(self, position: list, sender: int, speed_coeff: int):
         super().__init__(position,
-                         self.set_speed(Settings.bullet_speed, speed_coeff),
+                         self.new_speed(Settings.bullet_speed, speed_coeff),
                          Settings.bullet_size, Settings.bullet_image)
         self._sender = sender
 
