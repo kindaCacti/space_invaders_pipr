@@ -12,8 +12,6 @@ Classes:
   - Bullet
   - Blocker
   - Enemy
-  - Squid
-  - Octopus
   - Player
   - FileManager
   - Settings
@@ -32,12 +30,6 @@ Class Blocker:
 
 Class Enemy:
   Class describing every enemy in the game. They have a specific move pattern, so they can be offset and moved if specific criteria are met
-
-Class Squid:
-  Class used to represent Squid type of enemie. It inherits from Enemy.
-
-Class Octopus:
-  Class used to represent Octopus type of enemie. It inherits from Enemy.
 
 Class Player:
   Class used to represent Player. It inherits from ShootingEntity. This is the only entity that actual player can control during the game. It has shooting delay.
