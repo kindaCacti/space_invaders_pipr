@@ -1,6 +1,5 @@
 from entity import Entity
 from bullet import Bullet
-from settings import Settings
 
 
 class ShootingEntity(Entity):
@@ -27,6 +26,20 @@ class ShootingEntity(Entity):
     """
     def __init__(self, position: list, speed: list, size: int, image: str,
                  bullet_speed_coefficient: int, states: int, score: int):
+        try:
+            if (type(position) is not list or
+               type(speed) is not list or
+               type(size) is not int or
+               type(image) is not str or
+               type(bullet_speed_coefficient) is not int or
+               type(states) is not int or
+               type(score) is not int):
+                raise TypeError
+
+        except Exception:
+            print("wrong types passed")
+            quit()
+
         super().__init__(position, speed, size, image)
         self._bullet_speed_coefficient = bullet_speed_coefficient
         self._state = 0
@@ -41,7 +54,7 @@ class ShootingEntity(Entity):
     def state(self):
         return self._state
 
-    def shoot(self, speed: int = Settings.bullet_speed) -> Bullet:
+    def shoot(self) -> Bullet:
         # Returns a bullet that given entity shot
         dist = 1
         y_position = self.position[1] - dist
@@ -53,14 +66,19 @@ class ShootingEntity(Entity):
 
     def is_hit(self, entity: Entity) -> [bool, bool]:
         # Returns if an entity was shot and if should its state change
-        if entity.sender == self.bullet_speed_coefficient:
+        try:
+            if entity.sender == self.bullet_speed_coefficient:
+                return False, False
+            if (entity.position[0] + entity.size >= self.position[0] and
+                    entity.position[0] <= self.position[0] + self.size and
+                    entity.position[1] + entity.size >= self.position[1] and
+                    entity.position[1] <= self.position[1] + self.size):
+                return True, True
             return False, False
-        if (entity.position[0] + entity.size >= self.position[0] and
-                entity.position[0] <= self.position[0] + self.size and
-                entity.position[1] + entity.size >= self.position[1] and
-                entity.position[1] <= self.position[1] + self.size):
-            return True, True
-        return False, False
+
+        except Exception:
+            print("Error in ShootingEntity.is_hit()")
+            pass
 
     def next_state(self):
         # Changes a state of an entity

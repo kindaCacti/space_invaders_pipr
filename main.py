@@ -52,7 +52,7 @@ def update_hit(bullets: list, *entities: list):
                 if hit_bool:
                     if changes:
                         hit.append(entity)
-                    bullet.set_position([bullet.position[0], -1000])
+                    bullet.move_off_screen()
     return hit
 
 
@@ -80,9 +80,9 @@ def load_invaders():
     for y in range(Settings.rows_of_invaders):
         for x in range(Settings.invaders_in_row):
             if y == 0 or y == 1:
-                invaders.append(Squid([10+50*x, 30+50*y]))
+                invaders.append(Squid([10+50*x, 30+50*y], y*.1))
                 continue
-            invaders.append(Octopus([10+50*x, 30+50*y]))
+            invaders.append(Octopus([10+50*x, 30+50*y], y*.1))
     return invaders
 
 

@@ -13,18 +13,32 @@ class Player(ShootingEntity):
 
     Methods:
     --------
-    write_to_file(content: str)
-        method writing content to file
-    read_file()
-        method reading frome file
+    player_shoot(time: float)
+        checks if a player can shoot a bullet and if can shoots it
     """
     def __init__(self, position: list):
-        super().__init__(position, Settings.player_speed, Settings.player_size,
+        try:
+            if type(position) is not list:
+                raise TypeError
+
+        except TypeError:
+            print("wrong types passed to Player")
+            quit()
+
+        super().__init__(position, Settings.player_speed,
+                         Settings.player_size,
                          Settings.player_image, -1, 1, 0)
         self._last_shot = -1000
 
     def player_shoot(self, time: float):
         """checks if a player can shoot a bullet and if can shoots it"""
+        try:
+            time = float(time)
+
+        except Exception:
+            print("wrong types passed to Player.player_shoot()")
+            return None
+
         if time - self._last_shot < .3:
             return None
         self._last_shot = time
