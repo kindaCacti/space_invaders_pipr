@@ -22,21 +22,23 @@ class Enemy(ShootingEntity):
     _set_ticks(ticks: float)
         method setting tick offset for specific enemy
     """
-    def __init__(self, position: list, score: int, image: str):
+    def __init__(self, position: list, score: int, image: str, tick_offset: float):
         try:
             if (type(position) is not list or
                type(score) is not int or
                type(image) is not str):
                 raise TypeError
 
+            super().__init__(position, Settings.enemy_speed,
+                             Settings.enemy_size,
+                             image, 1, 1, score)
+            self._ticks = tick_offset
+            self._done_ticks = 0
+            self._speed_coeff = 1
         except TypeError:
             print("wrong type passed to Enemy")
-
-        super().__init__(position, Settings.enemy_speed, Settings.enemy_size,
-                         image, 1, 1, score)
-        self._ticks = 0
-        self._done_ticks = 0
-        self._speed_coeff = 1
+        except Exception:
+            print("Error in Enemy")
 
     def _set_ticks(self, ticks: float):
         # sets ticks to offset movement

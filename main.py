@@ -1,11 +1,9 @@
 from enemy import Enemy
-from octopus import Octopus
 from player import Player
 from bullet import Bullet
 from settings import Settings
 from blocker import Blocker
 from random import randint
-from squid import Squid
 from file_manager import FileManager
 import pygame
 
@@ -80,9 +78,15 @@ def load_invaders():
     for y in range(Settings.rows_of_invaders):
         for x in range(Settings.invaders_in_row):
             if y == 0 or y == 1:
-                invaders.append(Squid([10+50*x, 30+50*y], y*.1))
+                invaders.append(Enemy([10+50*x, 30+50*y],
+                                      Settings.squid_score,
+                                      Settings.squid_image,
+                                      y*.1))
                 continue
-            invaders.append(Octopus([10+50*x, 30+50*y], y*.1))
+            invaders.append(Enemy([10+50*x, 30+50*y],
+                            Settings.enemy_score,
+                            Settings.enemy_image,
+                            y*.1))
     return invaders
 
 
@@ -182,7 +186,7 @@ def show_lose_screen(score: int):
         buttons.clear()
         buttons = [[show_button(screen, (100, 250), "restart", (100, 100)), 1],
                    [show_button(screen, (400, 250), "quit", (100, 100)), 0]]
-        mouse = pygame.mouse.get_pos() 
+        mouse = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return -1
@@ -260,7 +264,8 @@ def show_game_window():
         new_bullets = []
         for bullet in bullets:
             if (bullet.position[1] < -100 - Settings.bullet_size or
-                    bullet.position[1] > Settings.window_height + Settings.bullet_size + 100):
+               bullet.position[1] > Settings.window_height +
+               Settings.bullet_size + 100):
                 continue
             new_bullets.append(bullet)
         bullets = new_bullets
